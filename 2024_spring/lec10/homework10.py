@@ -20,7 +20,7 @@ def waveform_to_frames(waveform, frame_length, step):
     num_frames = int(len(speech)-frame_length/step)
     frames = np.zeros((frame_length,num_frames))
     for frame in np.arange(num_frames):
-        frames[:,frame] = waveform[frame*step:frame*step+frame_lenge]
+        frames[:,frame] = waveform[frame*step:frame*step+frame_length]
     return frames
 
 def frames_to_stft(frames):
@@ -33,7 +33,9 @@ def frames_to_stft(frames):
     @returns:
     stft (np.ndarray((frame_length,num_frames))) - the STFT (complex-valued)
     '''
-    raise RuntimeError("You need to change this part")
+    #raise RuntimeError("You need to change this part")
+    stft = np.fft.fft(frames,axis=0)
+    return stft
 
 def stft_to_spectrogram(stft):
     '''
@@ -51,6 +53,10 @@ def stft_to_spectrogram(stft):
     np.amax(spectrogram) should be 0dB.
     np.amin(spectrogram) should be no smaller than -60dB.
     '''
-    raise RuntimeError("You need to change this part")
+    #raise RuntimeError("You need to change this part")
+    mstft = np.abs(stft)
+    spectrogram = 20*np.log10(np.maximum(0.001, mstft/np.amax(mstft)))
+    return spectrogram
+    
 
 
